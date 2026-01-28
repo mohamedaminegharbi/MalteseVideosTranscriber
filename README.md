@@ -22,8 +22,54 @@ This notebook downloads audio from YouTube videos and transcribes them to Maltes
 The notebook automatically installs required packages:
 - `openai-whisper` - Whisper transcription model
 - `yt-dlp` - YouTube video/audio downloader
+
+## OpenAI-Whisper Aechitecture
+
+1. **Input Processing**
+ 
+- `Log-mel spectrogram` : The audio is converted into a visual representation showing frequency content over time 
+- `2x Conv1D + GELU`: Two 1D convolutional layers with GELU activation functions process the spectrogram
+- `Sinusoidal Positional Encoding` : Added to give the model information about the temporal position of audio features
+
+2. **Encoder**
+   
+- `Multiple Encoder Blocks` : A stack of identical Transformer encoder blocks. These process the audio features and create rich contextual representations. Each block contains self-attention mechanisms and feed-forward networks
+
+3. **Cross-attention**
+   
+The decoder attends to the encoder's output. This allows the decoder to focus on relevant parts of the audio while generating text
+
+4. **Decoder**
+   
+Multiple Decoder Blocks: A stack of Transformer decoder blocks
+
+5. **Learned Positional Encoding**
+
+Different from the encoder, uses learned position embeddings
+
+5. **Input tokens**
+
+Special tokens in multitask training format including:
+- `<|SOT|> (Start of Transcript)`
+- `Language Identifier`
+- `Task Identifier`
+- `Timestamp`
+- `Transcription tokens`
   
+6. **Output**
+
+- `Next-token prediction` : The model predicts tokens autoregressively
+
 ![asr-summary-of-model-architecture-desktop](https://github.com/user-attachments/assets/bfceab10-090f-4a34-a9bc-61a405e93bca)
+
+**Key Design Features**
+
+- `Multitask format` : The special tokens allow Whisper to handle multiple tasks (transcription, translation, language detection) with a single model
+- `Autoregressive generation` : The decoder generates one token at a time, using previously generated tokens
+- `Encoder-decoder architecture` : Separates audio understanding (encoder) from text generation (decoder)
+- `Audio chunks` : The log-mel spectrogram represents fixed-length audio segments
+  
+This architecture enables Whisper to perform robust speech recognition across multiple languages and handle various tasks through its flexible token-based task specification system.
 
 ## Usage
 
@@ -153,6 +199,4 @@ Suggestions for improvement are welcome, especially:
 - Performance optimizations
 - Support for other Maltese audio sources
 
----
 
-**Note**: Maltese (mt) is a low-resource language for speech recognition. While Whisper's large-v3 model provides good results, expect some errors, especially with proper nouns, technical terms, and regional accents.
