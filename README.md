@@ -17,11 +17,6 @@ This notebook downloads audio from YouTube videos and transcribes them to Maltes
 1. **Full transcript** (`maltese_transcript.txt`) - Complete transcription with video metadata and timestamped segments
 2. **SRT subtitles** (`maltese_subtitles.srt`) - Standard subtitle format for video players
 
-## Requirements
-
-- Kaggle account with GPU enabled (recommended: NVIDIA Tesla T4)
-- Internet access enabled in Kaggle settings
-
 ## Installation
 
 The notebook automatically installs required packages:
