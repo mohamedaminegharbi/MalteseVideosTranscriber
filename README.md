@@ -47,7 +47,7 @@ Multiple Decoder Blocks: A stack of Transformer decoder blocks
 
 Different from the encoder, uses learned position embeddings
 
-5. **Input tokens**
+6. **Input tokens**
 
 Special tokens in multitask training format including:
 - `<|SOT|> (Start of Transcript)`
@@ -56,7 +56,7 @@ Special tokens in multitask training format including:
 - `Timestamp`
 - `Transcription tokens`
   
-6. **Output**
+7. **Output**
 
 - `Next-token prediction` : The model predicts tokens autoregressively
 
